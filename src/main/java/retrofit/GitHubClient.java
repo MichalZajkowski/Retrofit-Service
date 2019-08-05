@@ -13,15 +13,15 @@ class GitHubClient {
     private GitHubHTTPClient gitHubHTTPClient = new GitHubHTTPClient();
     private GitHub github = gitHubHTTPClient.getRetrofitInstance().create(GitHub.class);
 
-    JsonArray getRepoData() throws IOException {
+    JsonArray getRepoData(String owner, String repoName) throws IOException {
 
-        Call<List<RepoData>> call = github.reposData("MichalZajkowski");
+        Call<List<RepoData>> call = github.reposData(owner);
         List<RepoData> reposData = call.execute().body();
 
         assert reposData != null;
         JsonArray data = new JsonArray();
         for (RepoData repoData : reposData) {
-            if (repoData.name.equals("RetrofitService")) {
+            if (repoData.name.equals(repoName)) {
                 data.add(repoData.name);
                 data.add(repoData.html_url);
                 data.add(repoData.owner);

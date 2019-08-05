@@ -14,7 +14,7 @@ class GitHubServiceTest {
 
     @Test
     void testRepoRetroService() throws IOException {
-        JsonArray data = gitHubClient.getRepoData();
+        JsonArray data = gitHubClient.getRepoData("MichalZajkowski", "RetrofitService");
 
         // Print downloaded data
         JsonElement je = jp.parse(String.valueOf(data));
