@@ -1,6 +1,7 @@
 package retrofit;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -10,18 +11,17 @@ import java.util.List;
 
 class GitHubClient {
 
-    private GitHubHTTPClient gitHubHTTPClient = new GitHubHTTPClient();
-    private GitHub github = gitHubHTTPClient.getRetrofitInstance().create(GitHub.class);
+    private final GitHubHTTPClient gitHubHTTPClient = new GitHubHTTPClient();
+    private final GitHub github = gitHubHTTPClient.getRetrofitInstance().create(GitHub.class);
 
-    JsonArray getRepoData(String owner, String repoName) throws IOException {
-
-        Call<List<RepoData>> call = github.reposData(owner);
+    JsonArray getRepoData() throws IOException {
+        Call<List<RepoData>> call = github.reposData("MichalZajkowski");
         List<RepoData> reposData = call.execute().body();
 
         assert reposData != null;
         JsonArray data = new JsonArray();
         for (RepoData repoData : reposData) {
-            if (repoData.name.equals(repoName)) {
+            if (repoData.name.equals("Retrofit-Service")) {
                 data.add(repoData.name);
                 data.add(repoData.html_url);
                 data.add(repoData.owner);
